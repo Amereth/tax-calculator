@@ -11,4 +11,4 @@ export const client = new MongoClient(uri, {
   },
 })
 
-export const db = client.db('reddit')
+export const db = client.db('tax-calculator')
