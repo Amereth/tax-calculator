@@ -1,12 +1,12 @@
 'use server'
 
+import { ActionResponse } from '@/app/types/actions'
 import { collections } from '@/collections'
+import { createDefaultUser } from '@/features/login/utils/createDefaultUser'
 import { env } from '@/lib/env'
-import { createDefaultUser } from '@/utils/createDefaultUser'
 import jsonwebtoken from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { RedirectType, redirect } from 'next/navigation'
-import { ActionResponse } from './types'
 
 const EXPIRATION_TIME = 1000 * 60 * 60 * 24 // 24 hours
 
