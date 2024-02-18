@@ -10,7 +10,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2Icon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { sendConfirmationEmail } from '../../features/login/actions/sendConfirmationEmail'
 import {
   LoginFormModel,
@@ -18,14 +22,25 @@ import {
 } from '../../features/login/models/loginFormModel'
 
 export default function Login() {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<LoginFormModel>({
     resolver: zodResolver(loginFormModel),
     defaultValues: { email: '' },
   })
 
   const onSubmit = form.handleSubmit(async ({ email }) => {
+    setIsLoading(true)
     const response = await sendConfirmationEmail(email)
-    console.log(response)
+
+    if (response.error) {
+      toast.error(response.error)
+      setIsLoading(false)
+      return
+    }
+
+    router.push('/login/message-sent')
   })
 
   return (
@@ -48,8 +63,15 @@ export default function Login() {
               </FormItem>
             )}
           />
-          <Button type='submit' className='mt-8'>
-            отримати листа
+          <Button type='submit' className='mt-8' disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2Icon className='mr-2 h-4 w-4 animate-spin' />{' '}
+                відправляємо листа
+              </>
+            ) : (
+              'отримати листа'
+            )}
           </Button>
         </form>
       </div>
