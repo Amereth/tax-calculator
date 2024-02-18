@@ -20,6 +20,16 @@ export const authenticateUser = async (
     return { errors: ['час вийшов'] }
   }
 
+  const existingDoc = await collections.users.db.findOne({
+    email: dbResponse.email,
+  })
+
+  if (!existingDoc) {
+    collections.users.db.insertOne({
+      email: dbResponse.email,
+    })
+  }
+
   const jwt = jsonwebtoken.sign({ email: dbResponse.email }, env.JWT_SECRET, {
     expiresIn: '1d',
   })
