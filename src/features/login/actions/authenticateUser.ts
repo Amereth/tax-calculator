@@ -2,6 +2,7 @@
 
 import { collections } from '@/collections'
 import { env } from '@/lib/env'
+import { createDefaultUser } from '@/utils/createDefaultUser'
 import jsonwebtoken from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { RedirectType, redirect } from 'next/navigation'
@@ -25,9 +26,7 @@ export const authenticateUser = async (
   })
 
   if (!existingDoc) {
-    collections.users.db.insertOne({
-      email: dbResponse.email,
-    })
+    collections.users.db.insertOne(createDefaultUser(dbResponse.email))
   }
 
   const jwt = jsonwebtoken.sign({ email: dbResponse.email }, env.JWT_SECRET, {
