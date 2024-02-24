@@ -2,12 +2,16 @@
 
 import { ActionResponse } from '@/app/types/actions'
 import { collections } from '@/collections'
+import { UserSchema } from '@/collections/users'
 import { env } from '@/lib/env'
 import jsonwebtoken, { JwtPayload } from 'jsonwebtoken'
+import { WithId } from 'mongodb'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export const getUserTaxData = async (): Promise<ActionResponse> => {
+export const getUserTaxData = async (): Promise<
+  ActionResponse<WithId<UserSchema>>
+> => {
   const jwt = cookies().get('jwt')
 
   if (!jwt) return redirect('/login')

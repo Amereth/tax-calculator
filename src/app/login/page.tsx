@@ -34,8 +34,8 @@ export default function Login() {
     setIsLoading(true)
     const response = await sendConfirmationEmail(email)
 
-    if (response.error) {
-      toast.error(response.error)
+    if (response?.errors) {
+      toast.error(response?.errors)
       setIsLoading(false)
       return
     }
