@@ -2,8 +2,7 @@
 
 import { UserSchema } from '@/collections/users'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
-import { TrashIcon, PlusIcon } from 'lucide-react'
-import { useState } from 'react'
+import { TrashIcon } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
 import {
   Popover,
@@ -15,7 +14,6 @@ import { ControlledInput } from './ControlledInput'
 type IncomeCellProps = {
   monthIncome: UserSchema['income'][number]
   monthIndex: number
-  taxRate: UserSchema['taxRate']
   onIncomeChange: (arg: {
     monthIndex: number
     recordIndex: number
@@ -26,11 +24,8 @@ type IncomeCellProps = {
 export const IncomeCell = ({
   monthIncome,
   monthIndex,
-  taxRate,
   onIncomeChange,
 }: IncomeCellProps) => {
-  const [newAdded, setNewAdded] = useState(false)
-  console.log('newAdded:', newAdded)
   const totalIncome = monthIncome.reduce((acc, i) => acc + i, 0)
 
   return (
@@ -47,6 +42,7 @@ export const IncomeCell = ({
               дохід за {getMonthNameByIndex(monthIndex)}
             </h4>
           </div>
+
           <div className='grid gap-2'>
             {monthIncome.map((income, recordIndex) => (
               <div key={recordIndex} className='flex items-center gap-1'>
@@ -70,33 +66,7 @@ export const IncomeCell = ({
                 />
               </div>
             ))}
-
-            {newAdded && (
-              <div className='flex items-center gap-1'>
-                <Button
-                  size='icon'
-                  className='h-8 w-8 shrink-0'
-                  variant='outline'
-                >
-                  <TrashIcon size={16} />
-                </Button>
-
-                <ControlledInput
-                  value={0}
-                  onSubmit={(value) =>
-                    onIncomeChange({
-                      monthIndex,
-                      recordIndex: monthIncome.length + 1,
-                      value,
-                    })
-                  }
-                />
-              </div>
-            )}
           </div>
-          <Button size='icon' onChange={() => setNewAdded((v) => !v)}>
-            <PlusIcon />
-          </Button>
         </div>
       </PopoverContent>
     </Popover>
