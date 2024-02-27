@@ -86,12 +86,7 @@ export default function Home() {
                     <TableCell></TableCell>
                     <TableCell>{arraySum(monthIncome) * taxRate}</TableCell>
 
-                    <TableCell>
-                      {' '}
-                      {/* {index === 2
-                      ? quarterIncome.reduce((acc, i) => acc + i * taxRate, 0)
-                      : null} */}
-                    </TableCell>
+                    <TableCell></TableCell>
                     <TableCell className='text-right'>esv</TableCell>
                   </TableRow>
                 ))}
