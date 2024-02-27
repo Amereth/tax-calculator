@@ -1,6 +1,5 @@
 'use client'
 
-import { Form } from '@/components/ui/form'
 import {
   Table,
   TableBody,
@@ -12,10 +11,10 @@ import {
 import { IncomeCell } from '@/features/income/components/IncomeCell'
 import { useUpdateIncome } from '@/features/income/hooks/useUpdateIncome'
 import { useUser } from '@/features/income/hooks/useUser'
+import { arraySum } from '@/utils/arraySum'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
 import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
-import { useForm } from 'react-hook-form'
 import { RotatingLines } from 'react-loader-spinner'
 
 export default function Home() {
@@ -59,8 +58,8 @@ export default function Home() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>місяць</TableHead>
-            <TableHead>доход</TableHead>
+            <TableHead></TableHead>
+            <TableHead>дохід</TableHead>
             <TableHead></TableHead>
             <TableHead>єп</TableHead>
             <TableHead></TableHead>
@@ -68,45 +67,47 @@ export default function Home() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {incomeByQuarter?.map((quarterIncome, quarterIndex) => (
-            <Fragment key={quarterIndex}>
-              {quarterIncome.map((monthIncome, monthIndex) => (
-                <TableRow key={quarterIndex + monthIndex}>
-                  <TableHead>
-                    {getMonthNameByIndex(quarterIndex * 3 + monthIndex)}
-                  </TableHead>
+          {incomeByQuarter?.map((quarterIncome, quarterIndex) => {
+            const quarterTotal = arraySum(quarterIncome.map(arraySum))
+            return (
+              <Fragment key={quarterIndex}>
+                {quarterIncome.map((monthIncome, monthIndex) => (
+                  <TableRow key={quarterIndex + monthIndex}>
+                    <TableHead>
+                      {getMonthNameByIndex(quarterIndex * 3 + monthIndex)}
+                    </TableHead>
 
-                  <IncomeCell
-                    monthIncome={monthIncome}
-                    monthIndex={quarterIndex * 3 + monthIndex}
-                    taxRate={taxRate}
-                    onIncomeChange={mutate}
-                  />
-                  {
-                    <TableCell className='font-medium'>
+                    <IncomeCell
+                      monthIncome={monthIncome}
+                      monthIndex={quarterIndex * 3 + monthIndex}
+                      onIncomeChange={mutate}
+                    />
+
+                    <TableCell></TableCell>
+                    <TableCell>{arraySum(monthIncome) * taxRate}</TableCell>
+
+                    <TableCell>
+                      {' '}
                       {/* {index === 2
-                        ? quarterIncome.reduce((acc, i) => acc + i, 0)
-                        : null} */}
-                    </TableCell>
-                  }
-                  <TableCell>{/* {monthIncome * taxRate} */}</TableCell>
-                  <TableCell>
-                    {' '}
-                    {/* {index === 2
                       ? quarterIncome.reduce((acc, i) => acc + i * taxRate, 0)
                       : null} */}
-                  </TableCell>
-                  <TableCell className='text-right'>esv</TableCell>
+                    </TableCell>
+                    <TableCell className='text-right'>esv</TableCell>
+                  </TableRow>
+                ))}
+
+                <TableRow className='border-b-2 border-black'>
+                  <TableCell></TableCell>
+                  <TableCell className='font-medium'>{quarterTotal}</TableCell>
+                  <TableCell></TableCell>
+
+                  <TableCell>{quarterTotal * taxRate}</TableCell>
+
+                  <TableCell colSpan={6} className='text-right'></TableCell>
                 </TableRow>
-              ))}
-              <TableRow className='border-b-2 border-black'>
-                <TableCell></TableCell>
-                <TableCell className='text-right'></TableCell>
-                {/* <TableCell colSpan={5}></TableCell> */}
-                <TableCell colSpan={6} className='text-right'></TableCell>
-              </TableRow>
-            </Fragment>
-          ))}
+              </Fragment>
+            )
+          })}
         </TableBody>
       </Table>
     </main>
