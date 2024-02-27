@@ -15,7 +15,7 @@ export type UserSchema = z.infer<typeof schema>
 
 const createUser = (email: string): UserSchema => ({
   email,
-  income: Array(12).fill([]),
+  income: Array(12).fill([0]),
   taxRate: DEFAULT_TAX_RATE,
 })
 
