@@ -3,20 +3,9 @@
 import { ActionResponse } from '@/app/types/actions'
 import { collections } from '@/collections'
 import { env } from '@/lib/env'
-import crypto from 'crypto'
 import { Resend } from 'resend'
 import { ZodError } from 'zod'
 import { loginFormModel } from '../models/loginFormModel'
-
-type Response =
-  | {
-      data: null
-      error: string[]
-    }
-  | {
-      data: { id: string }
-      error: null
-    }
 
 export const sendConfirmationEmail = async (
   email: string,

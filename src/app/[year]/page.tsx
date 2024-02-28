@@ -13,11 +13,15 @@ import { useUpdateIncome } from '@/features/income/hooks/useUpdateIncome'
 import { useUser } from '@/features/income/hooks/useUser'
 import { arraySum } from '@/utils/arraySum'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
-import { useRouter } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import { Fragment } from 'react'
 import { RotatingLines } from 'react-loader-spinner'
 
-export default function Home() {
+type Props = {
+  params: { year: string }
+}
+
+export default function Home({ params: { year } }: Props) {
   const { data, isLoading } = useUser()
   const { mutate } = useUpdateIncome()
   const router = useRouter()
@@ -43,7 +47,11 @@ export default function Home() {
 
   const { income, taxRate } = data
 
-  const incomeByQuarter = income.reduce<number[][][]>(
+  if (!income[year]) {
+    notFound()
+  }
+
+  const incomeByQuarter = income[year].reduce<number[][][]>(
     (acc, monthIncome, index) => {
       const quarter = Math.floor(index / 3)
       if (!acc[quarter]) acc[quarter] = []

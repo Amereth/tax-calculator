@@ -13,7 +13,7 @@ import {
 import { ControlledInput } from './ControlledInput'
 
 type IncomeCellProps = {
-  monthIncome: UserSchema['income'][number]
+  monthIncome: UserSchema['income'][number][number]
   monthIndex: number
   onIncomeChange: (arg: {
     monthIndex: number

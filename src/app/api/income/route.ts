@@ -35,6 +35,7 @@ export const GET = async (): Promise<
 }
 
 export type PostBody = {
+  year: string
   monthIndex: number
   recordIndex: number
   value: number
@@ -54,7 +55,7 @@ export const POST = async (
     const email: string = (decoded as JwtPayload).email
 
     const body = (await request.json()) as PostBody
-    const { monthIndex, recordIndex, value } = body
+    const { year, monthIndex, recordIndex, value } = body
 
     const document = await collections.users.db.findOne({ email })
 
@@ -67,17 +68,17 @@ export const POST = async (
       { email },
       {
         $set: {
-          [`income.${monthIndex}.${recordIndex}`]: value,
+          [`${year}.income.${monthIndex}.${recordIndex}`]: value,
         },
       },
     )
 
-    if (document.income[monthIndex].length - 1 === recordIndex) {
+    if (document.income[year][monthIndex].length - 1 === recordIndex) {
       await collections.users.db.updateOne(
         { email },
         {
           $push: {
-            [`income.${monthIndex}`]: 0,
+            [`${year}.income.${monthIndex}`]: 0,
           },
         },
       )
