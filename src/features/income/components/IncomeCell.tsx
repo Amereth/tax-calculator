@@ -1,6 +1,7 @@
 'use client'
 
 import { UserSchema } from '@/collections/users'
+import { TableCell } from '@/components/ui/table'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
 import { TrashIcon } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
@@ -31,9 +32,11 @@ export const IncomeCell = ({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <td>
-          <Button variant='outline'>{totalIncome}</Button>
-        </td>
+        <TableCell className='w-full'>
+          <Button variant='outline' className='w-full'>
+            {totalIncome}
+          </Button>
+        </TableCell>
       </PopoverTrigger>
       <PopoverContent className='w-80'>
         <div className='grid gap-4'>

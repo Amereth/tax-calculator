@@ -58,24 +58,26 @@ export default function Home() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead></TableHead>
-            <TableHead>дохід</TableHead>
-            <TableHead></TableHead>
-            <TableHead>єп</TableHead>
-            <TableHead></TableHead>
+            <TableHead />
+            <TableHead className='w-40 text-center'>дохід</TableHead>
+            <TableHead />
+            <TableHead className='text-center'>єп</TableHead>
+            <TableHead />
             <TableHead className='text-right'>єсв</TableHead>
           </TableRow>
         </TableHeader>
+
         <TableBody>
           {incomeByQuarter?.map((quarterIncome, quarterIndex) => {
             const quarterTotal = arraySum(quarterIncome.map(arraySum))
+
             return (
               <Fragment key={quarterIndex}>
                 {quarterIncome.map((monthIncome, monthIndex) => (
                   <TableRow key={quarterIndex + monthIndex}>
-                    <TableHead>
+                    <TableCell>
                       {getMonthNameByIndex(quarterIndex * 3 + monthIndex)}
-                    </TableHead>
+                    </TableCell>
 
                     <IncomeCell
                       monthIncome={monthIncome}
@@ -83,22 +85,24 @@ export default function Home() {
                       onIncomeChange={mutate}
                     />
 
-                    <TableCell></TableCell>
-                    <TableCell>{arraySum(monthIncome) * taxRate}</TableCell>
+                    <TableCell />
+                    <TableCell className='text-center'>
+                      {arraySum(monthIncome) * taxRate}
+                    </TableCell>
 
-                    <TableCell></TableCell>
+                    <TableCell />
                     <TableCell className='text-right'>esv</TableCell>
                   </TableRow>
                 ))}
 
-                <TableRow className='border-b-2 border-black'>
-                  <TableCell></TableCell>
+                <TableRow className='border-b-2 border-black text-center'>
+                  <TableCell />
                   <TableCell className='font-medium'>{quarterTotal}</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell />
 
                   <TableCell>{quarterTotal * taxRate}</TableCell>
 
-                  <TableCell colSpan={6} className='text-right'></TableCell>
+                  <TableCell colSpan={6} className='text-right' />
                 </TableRow>
               </Fragment>
             )
