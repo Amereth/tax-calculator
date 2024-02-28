@@ -2,6 +2,7 @@
 
 import { UserSchema } from '@/collections/users'
 import { TableCell } from '@/components/ui/table'
+import { formatCurrency } from '@/utils/formatCurrency'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
 import { TrashIcon } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
@@ -27,15 +28,13 @@ export const IncomeCell = ({
   monthIndex,
   onIncomeChange,
 }: IncomeCellProps) => {
-  const totalIncome = monthIncome.reduce((acc, i) => acc + i, 0)
+  const totalIncome = formatCurrency(monthIncome.reduce((acc, i) => acc + i, 0))
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <TableCell className='w-full'>
-          <Button variant='outline' className='w-full'>
-            {totalIncome}
-          </Button>
+          <Button className='h-6 w-full '>{totalIncome}</Button>
         </TableCell>
       </PopoverTrigger>
       <PopoverContent className='w-80'>

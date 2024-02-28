@@ -34,7 +34,6 @@ export const ControlledInput = ({
     if (Number.parseFloat(value) === _value) return
 
     const verifiedValue = schema.safeParse(Number.parseFloat(value))
-    console.log('onSubmit ~ verifiedValue:', verifiedValue)
 
     if (verifiedValue.success) {
       _onSubmit(verifiedValue.data)

@@ -68,7 +68,7 @@ export const POST = async (
       { email },
       {
         $set: {
-          [`${year}.income.${monthIndex}.${recordIndex}`]: value,
+          [`income.${year}.${monthIndex}.${recordIndex}`]: value,
         },
       },
     )
@@ -78,7 +78,7 @@ export const POST = async (
         { email },
         {
           $push: {
-            [`${year}.income.${monthIndex}`]: 0,
+            [`income.${year}.${monthIndex}`]: 0,
           },
         },
       )

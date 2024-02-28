@@ -12,6 +12,7 @@ import { IncomeCell } from '@/features/income/components/IncomeCell'
 import { useUpdateIncome } from '@/features/income/hooks/useUpdateIncome'
 import { useUser } from '@/features/income/hooks/useUser'
 import { arraySum } from '@/utils/arraySum'
+import { formatCurrency } from '@/utils/formatCurrency'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
 import { notFound, useRouter } from 'next/navigation'
 import { Fragment } from 'react'
@@ -90,25 +91,32 @@ export default function Home({ params: { year } }: Props) {
                     <IncomeCell
                       monthIncome={monthIncome}
                       monthIndex={quarterIndex * 3 + monthIndex}
-                      onIncomeChange={mutate}
+                      onIncomeChange={(v) => mutate({ year, ...v })}
                     />
 
                     <TableCell />
+
                     <TableCell className='text-center'>
-                      {arraySum(monthIncome) * taxRate}
+                      {formatCurrency(arraySum(monthIncome) * taxRate)}
                     </TableCell>
 
                     <TableCell />
+
                     <TableCell className='text-right'>esv</TableCell>
                   </TableRow>
                 ))}
 
                 <TableRow className='border-b-2 border-black text-center'>
                   <TableCell />
-                  <TableCell className='font-medium'>{quarterTotal}</TableCell>
+                  <TableCell className='font-medium'>
+                    {formatCurrency(quarterTotal)}
+                  </TableCell>
+
                   <TableCell />
 
-                  <TableCell>{quarterTotal * taxRate}</TableCell>
+                  <TableCell>
+                    {formatCurrency(quarterTotal * taxRate)}
+                  </TableCell>
 
                   <TableCell colSpan={6} className='text-right' />
                 </TableRow>

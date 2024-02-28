@@ -8,6 +8,7 @@ import { WithId } from 'mongodb'
 import { useUserQueryKey } from './useUser'
 
 export type Payload = {
+  year: string
   monthIndex: number
   recordIndex: number
   value: number
