@@ -6,5 +6,5 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  return <div className='center flex'>{error.message}</div>
+  return <div className='grid h-full place-content-center'>{error.message}</div>
 }
