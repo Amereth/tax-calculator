@@ -27,7 +27,7 @@ const createUser = (email: string): UserSchema => ({
 })
 
 export const collection = new DbCollection<UserSchema, typeof createUser>(
-  'users',
+  name,
   schema,
   createUser,
 )
