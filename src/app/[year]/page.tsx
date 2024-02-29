@@ -49,7 +49,6 @@ export default function Home({ params: { year } }: Props) {
   }
 
   const { income, taxRate, esv } = data
-  console.log('Home ~ esv:', esv)
 
   if (!income[year]) notFound()
 
