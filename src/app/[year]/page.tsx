@@ -11,6 +11,8 @@ import {
 import { IncomeCell } from '@/features/income/components/IncomeCell'
 import { useIncome } from '@/features/income/hooks/useIncome'
 import { useUpdateIncome } from '@/features/income/hooks/useUpdateIncome'
+import { getIncomeByQuarter } from '@/features/income/utils/incomeByQuarter'
+import { getIncomeForPeriod } from '@/features/income/utils/incomeForPeriod'
 import { arraySum } from '@/utils/arraySum'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
@@ -52,27 +54,19 @@ export default function Home({ params: { year } }: Props) {
     notFound()
   }
 
-  const incomeByQuarter = income[year].reduce<number[][][]>(
-    (acc, monthIncome, index) => {
-      const quarter = Math.floor(index / 3)
-      if (!acc[quarter]) acc[quarter] = []
-      acc[quarter].push(monthIncome)
-      return acc
-    },
-    [],
-  )
+  const incomeByQuarter = getIncomeByQuarter(income[year])
 
   return (
     <main className='flex h-full flex-col'>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead />
+            <TableHead className='w-60' />
             <TableHead className='w-40 text-center'>дохід</TableHead>
-            <TableHead />
-            <TableHead className='text-center'>єп</TableHead>
-            <TableHead />
-            <TableHead className='text-right'>єсв</TableHead>
+            <TableHead className='w-40 text-center' />
+            <TableHead className='w-40 text-center'>єп</TableHead>
+            <TableHead className='w-40 text-center' />
+            <TableHead className='w-20 text-right'>єсв</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -108,11 +102,16 @@ export default function Home({ params: { year } }: Props) {
 
                 <TableRow className='border-b-2 border-black text-center'>
                   <TableCell />
+
                   <TableCell className='font-medium'>
                     {formatCurrency(quarterTotal)}
                   </TableCell>
 
-                  <TableCell />
+                  <TableCell>
+                    {formatCurrency(
+                      getIncomeForPeriod(income[year], quarterIndex),
+                    )}
+                  </TableCell>
 
                   <TableCell>
                     {formatCurrency(quarterTotal * taxRate)}
