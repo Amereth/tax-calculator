@@ -3,7 +3,7 @@
 import { ActionResponse } from '@/app/types/actions'
 import { collections } from '@/collections'
 import { env } from '@/lib/env'
-import { createYearIncomeBoilerplate } from '@/utils/createYearIncomBoilerplate'
+import { createYearIncomeBoilerplate } from '@/utils/createYearIncomeBoilerplate'
 import jsonwebtoken, { JwtPayload } from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { addYearFormModel } from '../models/addYearFormModel'

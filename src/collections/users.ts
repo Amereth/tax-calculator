@@ -1,5 +1,5 @@
 import { DbCollection } from '@/classes/DbCollection'
-import { createYearIncomeBoilerplate } from '@/utils/createYearIncomBoilerplate'
+import { createYearIncomeBoilerplate } from '@/utils/createYearIncomeBoilerplate'
 import { isNumeric } from 'validator'
 import { z } from 'zod'
 

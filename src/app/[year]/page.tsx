@@ -48,11 +48,10 @@ export default function Home({ params: { year } }: Props) {
     return null
   }
 
-  const { income, taxRate } = data
+  const { income, taxRate, esv } = data
+  console.log('Home ~ esv:', esv)
 
-  if (!income[year]) {
-    notFound()
-  }
+  if (!income[year]) notFound()
 
   const incomeByQuarter = getIncomeByQuarter(income[year])
 
@@ -96,7 +95,9 @@ export default function Home({ params: { year } }: Props) {
 
                     <TableCell />
 
-                    <TableCell className='text-right'>esv</TableCell>
+                    <TableCell className='text-right'>
+                      {formatCurrency(esv[year][quarterIndex * 3 + monthIndex])}
+                    </TableCell>
                   </TableRow>
                 ))}
 
@@ -123,7 +124,13 @@ export default function Home({ params: { year } }: Props) {
                     )}
                   </TableCell>
 
-                  <TableCell colSpan={6} className='text-right' />
+                  <TableCell colSpan={6} className='text-right'>
+                    {formatCurrency(
+                      arraySum(
+                        esv[year].slice(quarterIndex * 3, quarterIndex * 3 + 3),
+                      ),
+                    )}
+                  </TableCell>
                 </TableRow>
               </Fragment>
             )
