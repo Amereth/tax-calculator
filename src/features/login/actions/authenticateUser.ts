@@ -11,7 +11,7 @@ const EXPIRATION_TIME = 1000 * 60 * 60 * 24 // 24 hours
 
 export const authenticateUser = async (
   key: string,
-): Promise<ActionResponse> => {
+): Promise<ActionResponse<undefined>> => {
   const dbResponse = await collections.verificationCodes.db.findOne({ key })
 
   if (!dbResponse) return { errors: ['неправильний код'] }

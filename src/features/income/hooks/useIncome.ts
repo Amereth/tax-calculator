@@ -2,9 +2,9 @@ import { UserSchema } from '@/collections/users'
 import { useQuery } from '@tanstack/react-query'
 import { WithId } from 'mongodb'
 
-export const useUserQueryKey = '/api/income'
+export const useUserQueryKey = ['/api/income'] as const
 
-export const useUser = () =>
+export const useIncome = () =>
   useQuery<WithId<UserSchema>, { errors: string[] }>({
-    queryKey: [useUserQueryKey],
+    queryKey: useUserQueryKey,
   })

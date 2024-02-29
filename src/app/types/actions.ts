@@ -1,4 +1,4 @@
-export type ActionResponse<T = unknown> =
+export type ActionResponse<T> =
   | {
       data: T
       errors?: null

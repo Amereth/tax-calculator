@@ -5,7 +5,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { WithId } from 'mongodb'
-import { useUserQueryKey } from './useUser'
+import { useUserQueryKey } from './useIncome'
 
 export type Payload = {
   year: string
@@ -29,7 +29,7 @@ export const useUpdateIncome = () => {
     },
 
     onSuccess(data) {
-      queryClient.setQueryData([useUserQueryKey], data)
+      queryClient.setQueryData(useUserQueryKey, data)
     },
   })
 }

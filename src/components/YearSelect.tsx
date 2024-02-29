@@ -1,5 +1,6 @@
 'use client'
 
+import { useYears } from '@/features/income/hooks/useYears'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   Select,
@@ -9,12 +10,10 @@ import {
   SelectValue,
 } from './ui/select'
 
-type Props = {
-  years: string[]
-}
-
-export const YearSelect = ({ years }: Props) => {
+export const YearSelect = () => {
   const router = useRouter()
+
+  const { data } = useYears()
 
   const pathname = usePathname()
   const year = pathname.split('/')[1]
@@ -25,11 +24,12 @@ export const YearSelect = ({ years }: Props) => {
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        {years.map((year) => (
+        {data?.years.map((year) => (
           <SelectItem key={year} value={year}>
             {year}
           </SelectItem>
         ))}
+        <SelectItem value='add-year'>add year</SelectItem>
       </SelectContent>
     </Select>
   )

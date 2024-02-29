@@ -9,8 +9,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { IncomeCell } from '@/features/income/components/IncomeCell'
+import { useIncome } from '@/features/income/hooks/useIncome'
 import { useUpdateIncome } from '@/features/income/hooks/useUpdateIncome'
-import { useUser } from '@/features/income/hooks/useUser'
 import { arraySum } from '@/utils/arraySum'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
@@ -23,7 +23,7 @@ type Props = {
 }
 
 export default function Home({ params: { year } }: Props) {
-  const { data, isLoading } = useUser()
+  const { data, isLoading } = useIncome()
   const { mutate } = useUpdateIncome()
   const router = useRouter()
 

@@ -1,4 +1,5 @@
 import { DbCollection } from '@/classes/DbCollection'
+import { createYearIncomeBoilerplate } from '@/utils/createYearIncomBoilerplate'
 import { isNumeric } from 'validator'
 import { z } from 'zod'
 
@@ -20,7 +21,7 @@ export type UserSchema = z.infer<typeof schema>
 const createUser = (email: string): UserSchema => ({
   email,
   income: {
-    2023: Array(12).fill([0]),
+    [new Date().getFullYear()]: createYearIncomeBoilerplate(),
   },
   taxRate: DEFAULT_TAX_RATE,
 })
