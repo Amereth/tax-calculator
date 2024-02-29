@@ -5,7 +5,7 @@ import { addYear } from '@/features/income/actions/addYear'
 import { useUserQueryKey } from '@/features/income/hooks/useIncome'
 import { useQueryClient } from '@tanstack/react-query'
 import { Loader2Icon } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 export default function NotFound() {
