@@ -117,6 +117,12 @@ export default function Home({ params: { year } }: Props) {
                     {formatCurrency(quarterTotal * taxRate)}
                   </TableCell>
 
+                  <TableCell>
+                    {formatCurrency(
+                      getIncomeForPeriod(income[year], quarterIndex) * taxRate,
+                    )}
+                  </TableCell>
+
                   <TableCell colSpan={6} className='text-right' />
                 </TableRow>
               </Fragment>
