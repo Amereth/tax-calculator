@@ -1,12 +1,13 @@
 'use client'
 
+import { hasJwt } from '@/utils/hasJwt'
 import {
   QueryCache,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { PropsWithChildren, use, useState } from 'react'
+import { PropsWithChildren, useState } from 'react'
 
 export function Providers({ children }: PropsWithChildren) {
   const router = useRouter()
@@ -17,7 +18,7 @@ export function Providers({ children }: PropsWithChildren) {
         defaultOptions: {
           queries: {
             retry: false,
-            // throwOnError: true,
+            enabled: hasJwt(),
             refetchOnMount: false,
             staleTime: 1000 * 60 * 5,
             queryFn: async ({ queryKey }) => {

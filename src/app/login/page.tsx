@@ -9,10 +9,11 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { hasJwt } from '@/utils/hasJwt'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { sendConfirmationEmail } from '../../features/login/actions/sendConfirmationEmail'
@@ -24,6 +25,10 @@ import {
 export default function Login() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (hasJwt()) router.push('/')
+  }, [router])
 
   const form = useForm<LoginFormModel>({
     resolver: zodResolver(loginFormModel),
