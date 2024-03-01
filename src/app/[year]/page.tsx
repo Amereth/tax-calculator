@@ -26,6 +26,7 @@ type Props = {
 
 export default function Home({ params: { year } }: Props) {
   const { data, isLoading } = useIncome()
+
   const { mutate } = useUpdateIncome()
   const router = useRouter()
 

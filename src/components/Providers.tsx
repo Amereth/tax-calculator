@@ -1,33 +1,44 @@
 'use client'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { redirect } from 'next/navigation'
-import { PropsWithChildren, useState } from 'react'
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { PropsWithChildren, use, useState } from 'react'
 
 export function Providers({ children }: PropsWithChildren) {
+  const router = useRouter()
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
             retry: false,
-            throwOnError: true,
+            // throwOnError: true,
             refetchOnMount: false,
             staleTime: 1000 * 60 * 5,
             queryFn: async ({ queryKey }) => {
               const route = queryKey[0] as string
               const response = await fetch(route)
+
               const data = await response.json()
 
               if (response.ok) return data
 
-              if (response.status === 401) {
-                return redirect('/login')
-              }
               throw new Error(data.error)
             },
           },
         },
+        queryCache: new QueryCache({
+          onError: (error) => {
+            if (error.message === 'unathorised') {
+              router.push('/login')
+            }
+          },
+        }),
       }),
   )
 
