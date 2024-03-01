@@ -1,8 +1,9 @@
 import { collections } from '@/collections'
 import { EsvSchema } from '@/collections/esv'
 import { UserSchema } from '@/collections/users'
-import { env } from '@/lib/env'
-import jsonwebtoken, { JwtPayload } from 'jsonwebtoken'
+import { getUserData } from '@/features/income/queries/getUserData'
+import { apiErrorHandler } from '@/utils/apiErrorHandler'
+import { getUserEmail } from '@/utils/getUserEmail'
 import { WithId } from 'mongodb'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
@@ -13,41 +14,11 @@ export const GET = async (): Promise<
   NextResponse<GetResponse | { error: string }>
 > => {
   try {
-    const jwt = cookies().get('jwt')
-    if (!jwt) {
-      return NextResponse.json({ error: 'unathorised' }, { status: 401 })
-    }
+    const email = await getUserEmail()
 
-    const decoded = jsonwebtoken.verify(jwt.value, env.JWT_SECRET)
-    const email = (decoded as JwtPayload).email
-
-    const data = await Promise.all([
-      collections.users.db.findOne({ email }),
-      collections.esv.db.find().toArray(),
-    ])
-
-    if (!data) {
-      cookies().delete('jwt')
-      throw new Error('user not found')
-    }
-
-    const [userData, esv] = data
-
-    if (!userData) {
-      cookies().delete('jwt')
-      throw new Error('user not found')
-    }
-
-    if (!esv) {
-      throw new Error('esv not found')
-    }
-
-    return NextResponse.json({ ...userData, esv: esv[0] }, { status: 200 })
+    return getUserData(email)
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-    return NextResponse.json({ error: 'unknown error' }, { status: 500 })
+    return apiErrorHandler(error)
   }
 }
 
@@ -62,14 +33,7 @@ export const POST = async (
   request: NextRequest,
 ): Promise<NextResponse<WithId<UserSchema> | { error: string }>> => {
   try {
-    const jwt = cookies().get('jwt')
-
-    if (!jwt) {
-      return NextResponse.json({ error: 'unathorised' }, { status: 401 })
-    }
-
-    const decoded = jsonwebtoken.verify(jwt.value, env.JWT_SECRET)
-    const email: string = (decoded as JwtPayload).email
+    const email = await getUserEmail()
 
     const body = (await request.json()) as PostBody
     const { year, monthIndex, recordIndex, value } = body
@@ -101,18 +65,8 @@ export const POST = async (
       )
     }
 
-    const updatedDoc = await collections.users.db.findOne({ email })
-
-    if (!updatedDoc) {
-      cookies().delete('jwt')
-      throw new Error('user not found')
-    }
-
-    return NextResponse.json(updatedDoc, { status: 200 })
+    return getUserData(email)
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-    return NextResponse.json({ error: 'unknown error' }, { status: 500 })
+    return apiErrorHandler(error)
   }
 }
