@@ -1,6 +1,5 @@
 'use client'
 
-import { hasJwt } from '@/utils/hasJwt'
 import {
   QueryCache,
   QueryClient,
@@ -18,7 +17,6 @@ export function Providers({ children }: PropsWithChildren) {
         defaultOptions: {
           queries: {
             retry: false,
-            enabled: hasJwt(),
             refetchOnMount: false,
             staleTime: 1000 * 60 * 5,
             queryFn: async ({ queryKey }) => {

@@ -9,7 +9,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { hasJwt } from '@/utils/hasJwt'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -27,7 +26,9 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (hasJwt()) router.push('/')
+    if (!window.document.cookie.includes('jwt')) {
+      router.push('/')
+    }
   }, [router])
 
   const form = useForm<LoginFormModel>({
