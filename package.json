@@ -28,7 +28,7 @@
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.50.1",
+    "react-hook-form": "^7.51.3",
     "react-loader-spinner": "^6.1.6",
     "resend": "^3.2.0",
     "sonner": "^1.4.0",
