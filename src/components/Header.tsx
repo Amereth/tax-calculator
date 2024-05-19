@@ -1,6 +1,10 @@
+import { getUserData } from '@/features/income/queries/getUserData'
 import { YearSelect } from './YearSelect'
 
 export const Header = async () => {
+  const { income } = await getUserData()
+  const years = Object.keys(income)
+
   return (
     <header className='flex h-20 items-center border-b-2 px-4 py-4'>
       <div className='h-10 w-10 overflow-hidden rounded-full'>
@@ -13,7 +17,7 @@ export const Header = async () => {
       </div>
 
       <div className='ml-auto'>
-        <YearSelect />
+        <YearSelect years={years} />
       </div>
     </header>
   )

@@ -1,6 +1,5 @@
 'use client'
 
-import { useYears } from '@/features/income/hooks/useYears'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   Select,
@@ -10,10 +9,8 @@ import {
   SelectValue,
 } from './ui/select'
 
-export const YearSelect = () => {
+export const YearSelect = ({ years }: { years: string[] }) => {
   const router = useRouter()
-
-  const { data } = useYears()
 
   const pathname = usePathname()
   const year = pathname.split('/')[1]
@@ -24,7 +21,7 @@ export const YearSelect = () => {
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        {data?.years.map((year) => (
+        {years.map((year) => (
           <SelectItem key={year} value={year}>
             {year}
           </SelectItem>

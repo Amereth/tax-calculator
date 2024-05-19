@@ -11,16 +11,13 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { addYear } from '@/features/income/actions/addYear'
-import { useYearsQueryKey } from '@/features/income/hooks/useYears'
 import { addYearFormModel } from '@/features/income/models/addYearFormModel'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 export default function Page() {
   const router = useRouter()
-  const queryClient = useQueryClient()
 
   const form = useForm({
     resolver: zodResolver(addYearFormModel),
@@ -31,7 +28,6 @@ export default function Page() {
     const response = await addYear(year)
 
     if (response?.data?.success) {
-      queryClient.invalidateQueries({ queryKey: useYearsQueryKey })
       router.push(`/${year}`)
       return
     }

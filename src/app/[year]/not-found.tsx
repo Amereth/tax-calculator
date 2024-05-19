@@ -2,13 +2,11 @@
 
 import { Button } from '@/components/ui/button'
 import { addYear } from '@/features/income/actions/addYear'
-import { useQueryClient } from '@tanstack/react-query'
 import { Loader2Icon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 export default function NotFound() {
-  const queryClient = useQueryClient()
   const [isLoading, setLoading] = useState(false)
   const pathname = usePathname()
 
