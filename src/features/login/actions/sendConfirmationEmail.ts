@@ -34,16 +34,16 @@ export const sendConfirmationEmail = async (
       throw new Error('Unknown error')
     }
 
-    return { data: { id: response.data.id }, errors: null }
+    return { data: { id: response.data.id } }
   } catch (error) {
     if (error instanceof ZodError) {
-      return { data: null, errors: error.issues.map((i) => i.message) }
+      return { errors: error.issues.map((i) => i.message) }
     }
 
     if (error instanceof Error) {
-      return { data: null, errors: [error.message] }
+      return { errors: [error.message] }
     }
 
-    return { data: null, errors: ['Unknown error'] }
+    return { errors: ['Unknown error'] }
   }
 }
