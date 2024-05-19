@@ -2,7 +2,7 @@ import { env } from '@/lib/env'
 import jsonwebtoken, { JwtPayload } from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 
-export const getUserEmail = async (): Promise<string> => {
+export const getUserEmail = (): string => {
   const jwt = cookies().get('jwt')
 
   if (!jwt) {

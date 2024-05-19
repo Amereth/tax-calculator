@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { addYear } from '@/features/income/actions/addYear'
-import { useUserQueryKey } from '@/features/income/hooks/useIncome'
 import { useQueryClient } from '@tanstack/react-query'
 import { Loader2Icon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
@@ -23,7 +22,7 @@ export default function NotFound() {
     if (!response?.data?.success) return
 
     setLoading(true)
-    await queryClient.refetchQueries({ queryKey: useUserQueryKey })
+    // await queryClient.refetchQueries({ queryKey: useUserQueryKey })
     window.location.reload()
   }
 

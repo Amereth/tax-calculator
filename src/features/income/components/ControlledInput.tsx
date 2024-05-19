@@ -30,7 +30,7 @@ export const ControlledInput = ({
     }
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (Number.parseFloat(value) === _value) return
 
     const verifiedValue = schema.safeParse(Number.parseFloat(value))

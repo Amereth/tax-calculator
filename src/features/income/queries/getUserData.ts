@@ -1,28 +1,25 @@
 import { collections } from '@/collections'
-import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
+import { getUserEmail } from '@/utils/getUserEmail'
 
-export const getUserData = async (email: string) => {
+export const getUserData = async () => {
+  const email = getUserEmail()
+
   const data = await Promise.all([
-    collections.users.db.findOne({ email }),
+    collections.users.db.findOne({
+      email,
+    }),
     collections.esv.db.find().toArray(),
   ])
 
-  if (!data) {
-    cookies().delete('jwt')
-    throw new Error('user not found')
-  }
-
   const [userData, esv] = data
-
-  if (!userData) {
-    cookies().delete('jwt')
-    throw new Error('user not found')
-  }
 
   if (!esv) {
     throw new Error('esv not found')
   }
 
-  return NextResponse.json({ ...userData, esv: esv[0] }, { status: 200 })
+  if (!userData) {
+    throw new Error('user not found')
+  }
+
+  return { ...userData, esv: esv[0] }
 }

@@ -33,9 +33,9 @@ export const addYear = async (
     return { data: { success: true } }
   } catch (error) {
     if (error instanceof Error) {
-      return { data: null, errors: [error.message] }
+      return { errors: [error.message] }
     }
 
-    return { data: null, errors: ['Unknown error'] }
+    return { errors: ['Unknown error'] }
   }
 }

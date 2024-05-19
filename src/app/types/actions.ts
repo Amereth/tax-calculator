@@ -1,10 +1,9 @@
 export type ActionResponse<T> =
   | {
       data: T
-      errors?: null
+      errors?: never
     }
   | {
-      data?: null
+      data?: never
       errors: string[]
     }
-  | undefined

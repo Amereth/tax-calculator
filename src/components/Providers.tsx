@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { PropsWithChildren, useState } from 'react'
+import { toast } from 'sonner'
 
 export function Providers({ children }: PropsWithChildren) {
   const router = useRouter()
@@ -33,6 +34,8 @@ export function Providers({ children }: PropsWithChildren) {
         },
         queryCache: new QueryCache({
           onError: (error) => {
+            toast.error(error.message)
+
             if (error.message === 'unathorised') {
               router.push('/login')
             }

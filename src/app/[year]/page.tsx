@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Table,
   TableBody,
@@ -9,47 +7,21 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { IncomeCell } from '@/features/income/components/IncomeCell'
-import { useIncome } from '@/features/income/hooks/useIncome'
-import { useUpdateIncome } from '@/features/income/hooks/useUpdateIncome'
+import { getUserData } from '@/features/income/queries/getUserData'
 import { getIncomeByQuarter } from '@/features/income/utils/incomeByQuarter'
 import { getIncomeForPeriod } from '@/features/income/utils/incomeForPeriod'
 import { arraySum } from '@/utils/arraySum'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { getMonthNameByIndex } from '@/utils/getMonthNameByIndex'
-import { notFound, useRouter } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { Fragment } from 'react'
-import { RotatingLines } from 'react-loader-spinner'
 
 type Props = {
   params: { year: string }
 }
 
-export default function Home({ params: { year } }: Props) {
-  const { data, isLoading } = useIncome()
-
-  const { mutate } = useUpdateIncome()
-  const router = useRouter()
-
-  if (isLoading) {
-    return (
-      <div className='grid h-full place-content-center'>
-        <RotatingLines
-          visible={true}
-          width='96'
-          strokeWidth='5'
-          animationDuration='0.75'
-          ariaLabel='rotating-lines-loading'
-        />
-      </div>
-    )
-  }
-
-  if (!data) {
-    router.replace('/error')
-    return null
-  }
-
-  const { income, taxRate, esv } = data
+export default async function Home({ params: { year } }: Props) {
+  const { income, esv, taxRate } = await getUserData()
 
   if (!income[year]) notFound()
 
@@ -82,9 +54,9 @@ export default function Home({ params: { year } }: Props) {
                     </TableCell>
 
                     <IncomeCell
+                      year={year}
                       monthIncome={monthIncome}
                       monthIndex={quarterIndex * 3 + monthIndex}
-                      onIncomeChange={(v) => mutate({ year, ...v })}
                     />
 
                     <TableCell />
