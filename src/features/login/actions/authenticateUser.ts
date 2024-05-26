@@ -14,10 +14,10 @@ export const authenticateUser = async (
 ): Promise<ActionResponse<undefined>> => {
   const dbResponse = await collections.verificationCodes.db.findOne({ key })
 
-  if (!dbResponse) return { errors: ['неправильний код'] }
+  if (!dbResponse) redirect('/error?message=tryAgain')
 
   if (new Date(dbResponse.expiresAt) < new Date()) {
-    return { errors: ['час вийшов'] }
+    redirect('/error?message=timeout')
   }
 
   const existingDoc = await collections.users.db.findOne({
@@ -41,5 +41,7 @@ export const authenticateUser = async (
     httpOnly: true,
   })
 
-  redirect('/', RedirectType.replace)
+  console.log('before redirect')
+
+  redirect('/2024', RedirectType.replace)
 }

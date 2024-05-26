@@ -28,7 +28,7 @@ export default async function Home({ params: { year } }: Props) {
   const incomeByQuarter = getIncomeByQuarter(income[year])
 
   return (
-    <main className='flex h-full flex-col'>
+    <div className='flex h-full flex-col'>
       <Table>
         <TableHeader>
           <TableRow>
@@ -109,6 +109,6 @@ export default async function Home({ params: { year } }: Props) {
           })}
         </TableBody>
       </Table>
-    </main>
+    </div>
   )
 }

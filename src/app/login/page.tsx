@@ -7,12 +7,13 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
+  Form,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { sendConfirmationEmail } from '../../features/login/actions/sendConfirmationEmail'
@@ -25,11 +26,12 @@ export default function Login() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    if (!window.document.cookie.includes('jwt')) {
-      router.push('/')
-    }
-  }, [router])
+  // useEffect(() => {
+  //   if (!window.document.cookie.includes('jwt')) {
+  //     console.log(window.document.cookie)
+  //     router.push('/')
+  //   }
+  // }, [router])
 
   const form = useForm<LoginFormModel>({
     resolver: zodResolver(loginFormModel),
@@ -46,11 +48,11 @@ export default function Login() {
       return
     }
 
-    router.push('/login/message-sent')
+    router.push('/login/confirm')
   })
 
   return (
-    <FormProvider {...form}>
+    <Form {...form}>
       <div className='flex h-full items-center justify-center'>
         <form className='flex flex-col' onSubmit={onSubmit}>
           <FormField
@@ -81,6 +83,6 @@ export default function Login() {
           </Button>
         </form>
       </div>
-    </FormProvider>
+    </Form>
   )
 }

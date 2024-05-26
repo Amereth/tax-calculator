@@ -1,3 +1,3 @@
 export default function DefaultLoading() {
-  return <div className='grid h-full place-content-center'>loading</div>
+  return <main className='grid h-full place-content-center'>loading</main>
 }

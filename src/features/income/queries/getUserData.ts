@@ -1,5 +1,6 @@
 import { collections } from '@/collections'
 import { getUserEmail } from '@/utils/getUserEmail'
+import { redirect } from 'next/navigation'
 
 export const getUserData = async () => {
   const email = getUserEmail()
@@ -14,11 +15,13 @@ export const getUserData = async () => {
   const [userData, esv] = data
 
   if (!esv) {
-    throw new Error('esv not found')
+    console.log('esv not found')
+    redirect('/error')
   }
 
   if (!userData) {
-    throw new Error('user not found')
+    console.log('user not found')
+    redirect('/error')
   }
 
   return { ...userData, esv: esv[0] }

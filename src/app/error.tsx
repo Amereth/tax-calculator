@@ -10,10 +10,10 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div className='grid h-full place-content-center'>
+    <main className='grid h-full place-content-center'>
       {error.message}
 
       <Button onClick={reset}>назад</Button>
-    </div>
+    </main>
   )
 }

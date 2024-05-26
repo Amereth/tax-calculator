@@ -1,43 +1,72 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { authenticateUser } from '@/features/login/actions/authenticateUser'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { RotatingLines } from 'react-loader-spinner'
-import { toast } from 'sonner'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Check } from 'lucide-react'
+import { redirect } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const schema = z.object({
+  code: z.string().length(32),
+})
+
+type FormValues = z.infer<typeof schema>
 
 export default function ConfirmPage() {
-  const router = useRouter()
-  const verificationCode = useSearchParams().get('code')
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { code: '' },
+  })
 
-  useEffect(() => {
-    if (!verificationCode) {
-      toast.error('Код підтвердження не знайдено', {
-        id: 'no-verification-code',
-      })
-      router.push('/login')
-      return
+  const onSubmit = form.handleSubmit(async ({ code }) => {
+    console.log('onSubmit ~ code:', code)
+    const response = await authenticateUser(code)
+    console.log('onSubmit ~ response:', response)
+
+    if (response?.errors) {
+      console.log(response.errors)
     }
 
-    const validate = async () => {
-      const response = await authenticateUser(verificationCode)
-
-      if (response?.errors) {
-        response.errors.forEach((e) => toast.error(e, { id: e }))
-        router.push('/login')
-      }
-    }
-
-    validate()
-  }, [verificationCode, router])
+    // redirect('/2024')
+  })
 
   return (
-    <RotatingLines
-      visible={true}
-      width='96'
-      strokeWidth='5'
-      animationDuration='0.75'
-      ariaLabel='rotating-lines-loading'
-    />
+    <Form {...form}>
+      <form onSubmit={onSubmit} className='flex gap-4'>
+        <div className='text-center'>
+          листа відправлено
+          <br /> перевірте почтову скриньку
+        </div>
+
+        <FormField
+          control={form.control}
+          name='code'
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type='submit' size='icon'>
+          <Check />
+        </Button>
+      </form>
+    </Form>
   )
 }

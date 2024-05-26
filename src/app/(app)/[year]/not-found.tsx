@@ -25,7 +25,7 @@ export default function NotFound() {
   }
 
   return (
-    <main className='grid h-full place-content-center'>
+    <div className='grid h-full place-content-center'>
       <div>дохід за цей рік відсутній</div>
 
       <Button className='mt-4' onClick={onClick}>
@@ -35,6 +35,6 @@ export default function NotFound() {
           'добавити рік'
         )}
       </Button>
-    </main>
+    </div>
   )
 }

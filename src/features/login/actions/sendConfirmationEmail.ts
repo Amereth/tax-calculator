@@ -23,7 +23,7 @@ export const sendConfirmationEmail = async (
       from: 'onboarding@resend.dev',
       to: email,
       subject: 'Підтердження входу',
-      html: `<div><p>Перейдіть по лінку щоб залогинитись</p><div><a href="http://localhost:3000/login/confirm?code=${verificationCode.key}">написніть сюди</a></div></div>`,
+      html: `<div><p>Перейдіть по лінку щоб залогинитись</p><div>${verificationCode.key}</div></div>`,
     })
 
     if (response.error) {
