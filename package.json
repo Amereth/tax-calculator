@@ -23,7 +23,7 @@
     "input-otp": "^1.2.4",
     "jotai": "^2.8.2",
     "jsonwebtoken": "^9.0.2",
-    "lucide-react": "^0.379.0",
+    "lucide-react": "^0.383.0",
     "mongodb": "^6.6.2",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
