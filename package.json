@@ -21,7 +21,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "input-otp": "^1.4.2",
-    "jotai": "^2.11.0",
+    "jotai": "^2.11.1",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.471.1",
     "mongodb": "^6.12.0",
